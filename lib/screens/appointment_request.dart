@@ -4,46 +4,56 @@ import 'dart:convert';
 import 'package:doctor_app/helper/helper.dart';
 import 'package:doctor_app/models/appoinment.dart';
 import 'package:doctor_app/screens/login_screen.dart';
-import 'package:doctor_app/widgets/doctor_card_one.dart';
 import 'package:doctor_app/widgets/doctor_card_tow.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-class AppointmentScreen extends StatefulWidget {
-  const AppointmentScreen({Key? key}) : super(key: key);
+class AppointMentRequest extends StatefulWidget {
+  const AppointMentRequest({Key? key}) : super(key: key);
 
   @override
-  State<AppointmentScreen> createState() => _AppointmentScreenState();
+  State<AppointMentRequest> createState() => _AppointMentRequestState();
 }
 
-class _AppointmentScreenState extends State<AppointmentScreen> {
+class _AppointMentRequestState extends State<AppointMentRequest> {
+
 
   int id = 0;
+  String name = 'name';
   String token = 'token';
-  String device_token = 'device_token';
+  String email = 'email';
+  String role = 'role';
   List<Appointments> appointments = [];
-  fetchAllData() async {
+
+
+
+  fetchDoctors() async {
     final prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token')!;
-    device_token = prefs.getString('device_token')!;
+    name = prefs.getString('name')!;
+    email = prefs.getString('email')!;
+    role = prefs.getString('role')!;
     // await prefs.getString('device_token');
     id = prefs.getInt('id')!;
     if (token == null) {
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) => const LoginScreen()));
     }
+    setState(() {
 
-    var url = Uri.parse(baseUrl + '/appointment-list-patient/'+prefs.getInt('id')!.toString());
+    });
+
+    var url = Uri.parse(baseUrl + '/appointment-list-doctor/'+prefs.getInt('id')!.toString());
     var response = await http.get(url);
 
     if (response.statusCode == 200) {
-      print('Number of books about http: ${response.body}.');
-      var json = jsonDecode(response.body);
+      print('appointment-list-doctor: ${response.body}.');
+      var jsonResponse = jsonDecode(response.body);
       setState(() {
-        if (json['appointments'] != null) {
+        if (jsonResponse['appointments'] != null) {
           appointments = [];
-          json['appointments'].forEach((v) {
+          jsonResponse['appointments'].forEach((v) {
             appointments.add(Appointments.fromJson(v));
           });
         }
@@ -58,27 +68,25 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
           textColor: Colors.white,
           fontSize: 16.0);
     }
-
-
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchAllData();
+    fetchDoctors();
   }
 
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async{
-        return await fetchAllData();
+        return await fetchDoctors();
       },
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: Text('My appointments'),
+            title: Text('Appointments request lists'),
           ),
           body: ListView.builder(
               itemCount: appointments.length,

@@ -1,14 +1,61 @@
 
+import 'dart:convert';
+
+import 'package:doctor_app/models/doctors_model.dart';
 import 'package:doctor_app/screens/appointment_create..dart';
+import 'package:doctor_app/screens/login_screen.dart';
 import 'package:doctor_app/widgets/avatar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class AccoutnScreen extends StatelessWidget {
+import '../helper/helper.dart';
+import 'package:http/http.dart' as http;
+class AccoutnScreen extends StatefulWidget {
 
-  const AccoutnScreen({Key? key}) : super(key: key);
+   AccoutnScreen({Key? key,required this.id}) : super(key: key);
+  int id;
+  @override
+  State<AccoutnScreen> createState() => _AccoutnScreenState();
+}
+
+class _AccoutnScreenState extends State<AccoutnScreen> {
+   int id = 0;
+   late Doctors doctor;
+
+  featchDataSF() async{
+    var url = Uri.parse(baseUrl + '/doctor/profile/'+widget.id.toString());
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      print('Number of books about http: ${response.body}.');
+      var jsonResponse = jsonDecode(response.body);
+      setState(() {
+        doctor = Doctors.fromJson(jsonResponse);
+      });
+    } else {
+      Fluttertoast.showToast(
+          msg: "Request failed with status: ${response.statusCode}.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    featchDataSF();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -20,7 +67,7 @@ class AccoutnScreen extends StatelessWidget {
         ),
         // customAppBar('Profile', 'home',true,context),
         body: ListView(
-          physics: const BouncingScrollPhysics(),
+          physics:  BouncingScrollPhysics(),
           children: [
             const SizedBox(height: 14),
             AvatarWidget(
@@ -33,7 +80,7 @@ class AccoutnScreen extends StatelessWidget {
             const SizedBox(height: 24),
             Center(child:  GestureDetector(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AppointmentCreate()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AppointmentCreate(doctorId: doctor.id,)));
               },
               child: Container(
                 height: 40,
@@ -49,6 +96,12 @@ class AccoutnScreen extends StatelessWidget {
             const SizedBox(height: 24),
             const SizedBox(height: 48),
             buildAbout(),
+            const SizedBox(height: 16),
+            buildAbout2(),
+            const SizedBox(height: 16),
+            buildAbout3(),
+            const SizedBox(height: 16),
+            buildAbout4(),
           ],
         ),
       ),
@@ -57,25 +110,25 @@ class AccoutnScreen extends StatelessWidget {
 
   Widget buildName(context,size) => Column(
     children: [
-      const Text(
-        'Shortcut Rumon',
+       Text(
+        '${doctor.name}',
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
       ),
       const SizedBox(height: 4),
-      const Text(
-        'islamrumon707@gmail.com',
+       Text(
+        '${doctor.email}',
         style: TextStyle(color: Colors.grey),
       ),
-      const Text(
-        '+8801685755707',
+       Text(
+        doctor.phone,
         style: TextStyle(color: Colors.grey),
       ),
       const SizedBox(height: 4),
 
-      const Text(
-        '(765) Rating',
-        style: TextStyle(color: Colors.grey),
-      ),
+      // const Text(
+      //   '(765) Rating',
+      //   style: TextStyle(color: Colors.grey),
+      // ),
       SizedBox(
         height: 50,
         width: size.width/1.5,
@@ -123,20 +176,18 @@ class AccoutnScreen extends StatelessWidget {
     ],
   );
 
-
-
   Widget buildAbout() => Container(
     padding: const EdgeInsets.symmetric(horizontal: 48),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'About',
+          'Speciality',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 16),
         Text(
-          'Health articles that keep you informed about good health practices and achieve your goals.',
+          '${doctor.speciality}.',
           style: const TextStyle(fontSize: 16, height: 1.4),
         ),
       ],
@@ -144,4 +195,57 @@ class AccoutnScreen extends StatelessWidget {
   );
 
 
+   Widget buildAbout2() => Container(
+     padding: const EdgeInsets.symmetric(horizontal: 48),
+     child: Column(
+       crossAxisAlignment: CrossAxisAlignment.start,
+       children: [
+         const Text(
+           'Qualification',
+           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+         ),
+         const SizedBox(height: 16),
+         Text(
+           '${doctor.qualification}.',
+           style: const TextStyle(fontSize: 16, height: 1.4),
+         ),
+       ],
+     ),
+   );
+
+   Widget buildAbout3() => Container(
+     padding: const EdgeInsets.symmetric(horizontal: 48),
+     child: Column(
+       crossAxisAlignment: CrossAxisAlignment.start,
+       children: [
+         const Text(
+           'experience',
+           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+         ),
+         const SizedBox(height: 16),
+         Text(
+           '${doctor.experience}.',
+           style: const TextStyle(fontSize: 16, height: 1.4),
+         ),
+       ],
+     ),
+   );
+
+   Widget buildAbout4() => Container(
+     padding: const EdgeInsets.symmetric(horizontal: 48),
+     child: Column(
+       crossAxisAlignment: CrossAxisAlignment.start,
+       children: [
+         const Text(
+           'address',
+           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+         ),
+         const SizedBox(height: 16),
+         Text(
+           '${doctor.address}.',
+           style: const TextStyle(fontSize: 16, height: 1.4),
+         ),
+       ],
+     ),
+   );
 }

@@ -1,18 +1,110 @@
+
+import 'dart:convert';
+import 'dart:io';
+import 'package:doctor_app/controllers/repository.dart';
 import 'package:doctor_app/helper/fade_animation.dart';
 import 'package:doctor_app/helper/helper.dart';
+
+import 'package:doctor_app/screens/appointment_request.dart';
+import 'package:doctor_app/screens/decome_a_doctor.dart';
+import 'package:doctor_app/screens/main_screen.dart';
 import 'package:doctor_app/screens/register_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:getwidget/getwidget.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class LoginScreen extends StatelessWidget {
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+
+  var _email = TextEditingController();
+  var _pass = TextEditingController();
+
+
+  checktheAuth() async{
+    final prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('token') != null){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const MainScreen()));
+    }
+  }
+
+  login() async {
+    print('login');
+    print(_email.text);
+    print(_pass.text);
+
+    var url =  Uri.parse(baseUrl+'/login');
+    var response = await http.post(url,body:{
+          'email':_email.text,
+          'password':_pass.text,
+          'role':'patient',
+        });
+       
+    if (response.statusCode == 200) {
+        print('Number of books about http: ${response.body}.');
+      var jsonResponse = jsonDecode(response.body);
+    
+    if(jsonResponse['result'] == true){
+      //store data 
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('token', jsonResponse['token']);
+       await prefs.setString('name', jsonResponse['name']);
+        await prefs.setString('email', jsonResponse['email']);
+         await prefs.setString('role', jsonResponse['role']);
+          await prefs.setString('device_token', jsonResponse['device_token']);
+           await prefs.setInt('id', jsonResponse['id']);
+
+           if(jsonResponse['role'] == 'doctor'){
+             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const AppointMentRequest()));
+           }else{
+             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const MainScreen()));
+           }
+
+    }else{
+      Fluttertoast.showToast(
+          msg: "${jsonResponse['message']}",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
+    } else {
+      Fluttertoast.showToast(
+          msg: "Request failed with status: ${response.statusCode}.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+
+    }
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checktheAuth();
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
+
         resizeToAvoidBottomInset: false,
         appBar:  AppBar(
           backgroundColor: Colors.white,
@@ -84,25 +176,73 @@ class LoginScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: Column(
                   children: <Widget>[
-                    FadeAnimation(1.2, makeInput(label: "Email")),
+                    FadeAnimation(1.2, Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        const Text(
+                          "Email",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w400),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        TextField(
+                          obscureText: false,
+                          controller: _email,
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey)),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey)),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                      ],
+                    )),
                     FadeAnimation(
-                        1.3, makeInput(label: "Password", obscureText: true)),
+                        1.3, Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Password",
+                          style: const TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w400),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        TextField(
+                          obscureText: true,
+                          controller: _pass,
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey)),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey)),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                      ],
+                    )),
                   ],
                 ),
               ),
               FadeAnimation(
                   1.4,
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40),
-                    child: GFButton(
-                      onPressed: () {},
-                      text: "Login",
-                      color: secondaryColor,
-                      textStyle: const TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                      icon: const Icon(FontAwesomeIcons.unlock, size: 12),
-                      shape: GFButtonShape.standard,
-                      blockButton: true,
+                  GestureDetector(
+                    onTap: ()  {
+                        login(); 
+                    },
+                    child: const Padding(
+                      padding:  EdgeInsets.symmetric(horizontal: 40),
+                      child: Text('Login'),
                     ),
                   )),
 
@@ -126,7 +266,22 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ))
+                  )),
+              const SizedBox(height: 60,),
+              FadeAnimation(1.6, Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text("Become a doctor?"),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const BecomeADoctor()));
+                    },
+                    child:const Text("Register", style:  TextStyle(
+                        fontWeight: FontWeight.w600, fontSize: 18
+                    ),),
+                  ),
+                ],
+              )),
             ],
           ),
         ),

@@ -35,11 +35,11 @@ class _DoctorScreensState extends State<DoctorScreens> {
                 ),
               ),
             ),
-            DoctorCardOne(),
+            // DoctorCardOne(),
             SizedBox(
               height: 8,
             ),
-          DoctorCardTwo(),
+          // DoctorCardTwo(),
           ],
         ),
       ),

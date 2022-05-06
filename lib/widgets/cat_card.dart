@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CatCard extends StatefulWidget {
-  const CatCard({Key? key}) : super(key: key);
-
+  CatCard({Key? key,required this.title}) : super(key: key);
+  String title;
   @override
   State<CatCard> createState() => _CatCardState();
 }
@@ -25,7 +25,7 @@ class _CatCardState extends State<CatCard> {
         ),
         child: Center(
           child: Text(
-            'physiotherapist',
+            '${widget.title}',
             style: TextStyle(color: Colors.black, fontSize: 14),
           ),
         ),

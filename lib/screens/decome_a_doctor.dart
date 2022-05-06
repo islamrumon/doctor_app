@@ -1,40 +1,45 @@
-
-
 import 'dart:convert';
 
 import 'package:doctor_app/helper/fade_animation.dart';
 import 'package:doctor_app/helper/helper.dart';
-import 'package:doctor_app/screens/decome_a_doctor.dart';
 import 'package:doctor_app/screens/login_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import 'package:http/http.dart' as http;
+import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/getwidget.dart';
-
-
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+import 'package:http/http.dart' as http;
+class BecomeADoctor extends StatefulWidget {
+  const BecomeADoctor({Key? key}) : super(key: key);
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<BecomeADoctor> createState() => _BecomeADoctorState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
-
+class _BecomeADoctorState extends State<BecomeADoctor> {
   var name = TextEditingController();
   var email = TextEditingController();
   var pass = TextEditingController();
+  var speciality = TextEditingController();
+  var qualification = TextEditingController();
+  var experience = TextEditingController();
+  var address = TextEditingController();
+  var phone = TextEditingController();
 
   register() async{
 
-    var url =  Uri.parse(baseUrl+'/register');
+    var url =  Uri.parse(baseUrl+'/register/doctor');
     var response = await http.post(url,body:{
       'email':email.text,
       'password':pass.text,
-      'role':'patient',
+      'role':'doctor',
       'name':name.text,
+      'speciality':speciality.text,
+      'qualification':qualification.text,
+      'experience':experience.text,
+      'address':address.text,
+      'phone':phone.text,
     });
 
     if (response.statusCode == 200) {
@@ -71,6 +76,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     }
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -89,7 +95,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
           title: const Text(
-            "Registration",
+            "Doctor Registration",
             style: TextStyle(
                 fontWeight: FontWeight.w700,
                 color: Colors.black),
@@ -140,7 +146,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         fontWeight: FontWeight.bold
                     ),),
                     SizedBox(height: 20,),
-                    Text("Create an account, It's free", style: TextStyle(
+                    Text("Become a doctor, It's free", style: TextStyle(
                         fontSize: 15
                     )),
                   ],
@@ -172,7 +178,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         const SizedBox(height: 30,),
                       ],
                     ),
-
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -220,8 +225,127 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         const SizedBox(height: 30,),
                       ],
-                    )
-
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('speciality', style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                        ),),
+                        const SizedBox(height: 5,),
+                        TextField(
+                          controller: speciality,
+                          obscureText: false,
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey)
+                            ),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey)
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 30,),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('qualification', style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                        ),),
+                        const SizedBox(height: 5,),
+                        TextField(
+                          controller: qualification,
+                          obscureText: false,
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey)
+                            ),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey)
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 30,),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('experience', style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                        ),),
+                        const SizedBox(height: 5,),
+                        TextField(
+                          controller: experience,
+                          obscureText: false,
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey)
+                            ),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey)
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 30,),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('address', style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                        ),),
+                        const SizedBox(height: 5,),
+                        TextField(
+                          controller: address,
+                          obscureText: false,
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey)
+                            ),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey)
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 30,),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('phone', style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                        ),),
+                        const SizedBox(height: 5,),
+                        TextField(
+                          controller: phone,
+                          obscureText: false,
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey)
+                            ),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey)
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 30,),
+                      ],
+                    ),
                   ],
                 ),
                 FadeAnimation(
@@ -230,7 +354,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         onTap: (){
                           register();
                         },
-                        child: Text('register'))),
+                        child: Text('Registration'))),
+
 
                 const SizedBox(height: 20,),
                 FadeAnimation(1.6, Row(
@@ -247,21 +372,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ],
                 )),
-                const SizedBox(height: 60,),
-                FadeAnimation(1.6, Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Text("Become a doctor?"),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const BecomeADoctor()));
-                      },
-                      child:const Text("Register", style:  TextStyle(
-                          fontWeight: FontWeight.w600, fontSize: 18
-                      ),),
-                    ),
-                  ],
-                )),
+
               ],
             ),
           ),
@@ -275,8 +386,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(label, style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w400,
+          fontSize: 15,
+          fontWeight: FontWeight.w400,
         ),),
         const SizedBox(height: 5,),
         TextField(

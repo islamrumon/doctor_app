@@ -20,9 +20,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:  MainScreen(),
+      // home:  MainScreen(),
       // home:  SplashScreen(),
-      // home:  LoginScreen(),
+      home:  LoginScreen(),
       // home:  RegisterScreen(),
     );
   }

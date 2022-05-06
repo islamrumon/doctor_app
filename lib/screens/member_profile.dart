@@ -1,12 +1,54 @@
 
+import 'package:doctor_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/avatar_widget.dart';
 
-class MemberProfile extends StatelessWidget {
+class MemberProfile extends StatefulWidget {
   const MemberProfile({Key? key}) : super(key: key);
 
   @override
+  State<MemberProfile> createState() => _MemberProfileState();
+}
+
+class _MemberProfileState extends State<MemberProfile> {
+
+  int id = 0;
+
+  String  name = 'name';
+
+  String  token = 'token';
+
+  String  email = 'email';
+
+  String  role = 'role';
+
+  featchDataSF() async{
+    final prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token')!;
+    name = prefs.getString('name')!;
+    email =  prefs.getString('email')!;
+    role =  prefs.getString('role')!;
+    // await prefs.getString('device_token');
+    id =  prefs.getInt('id')!;
+
+    if(token == null){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));
+    }
+    setState(() {
+
+    });
+
+  }
+
+  logout() async{
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));
+  }
+  @override
   Widget build(BuildContext context) {
+    featchDataSF();
     Size size = MediaQuery.of(context).size;
 
     return SafeArea (
@@ -30,6 +72,12 @@ class MemberProfile extends StatelessWidget {
              const SizedBox(height: 24),
              const SizedBox(height: 48),
             buildAbout(),
+            const SizedBox(height: 24),
+            GestureDetector(
+                onTap: (){
+                  logout();
+                },
+                child: Center(child: Text('Logout')))
           ],
         ),
       ),
@@ -38,19 +86,19 @@ class MemberProfile extends StatelessWidget {
 
   Widget buildName(context,size) => Column(
     children: [
-      const Text(
-        'Shortcut Rumon',
+       Text(
+        '$name',
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
       ),
        const SizedBox(height: 4),
-      const Text(
-        'islamrumon707@gmail.com',
+       Text(
+        '$email',
         style: TextStyle(color: Colors.grey),
       ),
-      const Text(
-        '+8801685755707',
-        style: TextStyle(color: Colors.grey),
-      ),
+      // const Text(
+      //   '+8801685755707',
+      //   style: TextStyle(color: Colors.grey),
+      // ),
       const SizedBox(height: 4),
     ],
   );
@@ -72,5 +120,4 @@ class MemberProfile extends StatelessWidget {
       ],
     ),
   );
-
 }

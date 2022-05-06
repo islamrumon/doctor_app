@@ -5,7 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DoctorCardOne extends StatefulWidget {
-  const DoctorCardOne({Key? key}) : super(key: key);
+   DoctorCardOne({Key? key,required this.name,required this.speciality,required this.id}) : super(key: key);
+  String name;
+  String speciality;
+  int id = 0;
 
   @override
   State<DoctorCardOne> createState() => _DoctorCardOneState();
@@ -17,7 +20,7 @@ class _DoctorCardOneState extends State<DoctorCardOne> {
     Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>const AccoutnScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>AccoutnScreen(id: widget.id,)));
       },
       child: Container(
         width: size.width,
@@ -49,8 +52,8 @@ class _DoctorCardOneState extends State<DoctorCardOne> {
             ),
             Column(
               children: [
-                Text('Doctor Rumon',style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold),),
-                Text('Surgeon ',style: TextStyle(color: Colors.black45,fontSize: 14),)
+                Text('${widget.name}',style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold),),
+                Text('${widget.speciality}',style: TextStyle(color: Colors.black45,fontSize: 14),)
               ],
             )
           ],
