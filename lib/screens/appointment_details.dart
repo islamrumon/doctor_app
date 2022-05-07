@@ -176,7 +176,7 @@ class _APpointmentsDetailsState extends State<APpointmentsDetails> {
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     width: size.width,
-                    // height: ,
+                    height: 200,
                     padding: EdgeInsets.all(10),
                     child: ListTile(
                       leading: Column(
