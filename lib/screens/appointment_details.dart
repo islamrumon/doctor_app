@@ -116,7 +116,7 @@ class _APpointmentsDetailsState extends State<APpointmentsDetails> {
     Size size = MediaQuery.of(context).size;
 
     return SafeArea(child: Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(title: Text('Details')),
       body: ListView(
         shrinkWrap: true,
@@ -161,7 +161,6 @@ class _APpointmentsDetailsState extends State<APpointmentsDetails> {
               children: [Icon(Icons.access_time),
                 Text('${widget.appointments.date}',style: TextStyle(
                   fontWeight: FontWeight.bold,
-
                 ),),
               ],
             ),)
@@ -172,16 +171,15 @@ class _APpointmentsDetailsState extends State<APpointmentsDetails> {
             height: 25,
           ),
           Container(
-            height: 400,
+            height: 600,
             child: ListView.builder(
                 shrinkWrap: false,
                 itemCount: prescriptions.length,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
-                    width: size.width,
-                    height: 400,
-                    padding: EdgeInsets.all(20.0),
+                    height: 600,
+                    padding: EdgeInsets.all(50.0),
                     child: ListTile(
                       leading: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -283,7 +281,6 @@ class _APpointmentsDetailsState extends State<APpointmentsDetails> {
               ],
             ),
           ) : Container(),
-
         ],
       ),
     ));
