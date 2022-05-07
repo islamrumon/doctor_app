@@ -31,7 +31,7 @@ class _AppointmentCreateState extends State<AppointmentCreate> {
 
 
   submit() async{
-    print('login');
+    print(widget.doctorId.toString());
     final prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token')!;
     device_token = prefs.getString('device_token')!;
@@ -117,6 +117,7 @@ class _AppointmentCreateState extends State<AppointmentCreate> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    print(widget.doctorId.toString());
     return SafeArea(child: Scaffold(
       appBar: AppBar(
         title: const Text('Appointment create'),

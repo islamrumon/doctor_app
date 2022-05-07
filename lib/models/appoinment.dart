@@ -15,10 +15,10 @@
 class Appointments {
 
   late int id;
-  late int doctorId;
-  late int patientId;
+  late String doctorId;
+  late String patientId;
   late String date;
-  late int status;
+  late String status;
   late String subject;
   late String desc;
   late String createdAt;
