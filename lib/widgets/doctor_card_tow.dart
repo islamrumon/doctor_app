@@ -57,8 +57,8 @@ class _DoctorCardTwoState extends State<DoctorCardTwo> {
               children: [Icon(Icons.access_time),
                 Text('${widget.appointments.date}',style: TextStyle(
                   fontWeight: FontWeight.bold,
-
-                ),),
+                ),
+                ),
               ],
             ),)
           ],

@@ -58,8 +58,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
           textColor: Colors.white,
           fontSize: 16.0);
     }
-
-
   }
 
   @override

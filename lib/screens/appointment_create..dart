@@ -26,10 +26,6 @@ class _AppointmentCreateState extends State<AppointmentCreate> {
   final _description = TextEditingController();
   DateTime selectedDate = DateTime.now();
 
-
-
-
-
   submit() async{
     print(widget.doctorId.toString());
     final prefs = await SharedPreferences.getInstance();
@@ -70,6 +66,8 @@ class _AppointmentCreateState extends State<AppointmentCreate> {
         'desc':_description.text,
         'time':selectedDate.toString(),
       });
+
+      print(prefs.getInt('id')!.toString());
 
       if (response.statusCode == 200) {
         print('Number of books about http: ${response.body}.');

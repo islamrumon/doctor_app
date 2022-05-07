@@ -163,22 +163,29 @@ class _FirstScreenState extends State<FirstScreen> {
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),
           ),
         ),
-        ListView.builder(
-            shrinkWrap: true,
-            itemCount: doctors.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Column(
-                children: [
-                  DoctorCardOne(
-                      id: doctors[index].id,
-                      name: doctors[index].name,
-                      speciality: doctors[index].speciality),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                ],
-              );
-            }),
+        Container(
+          child: Scrollbar(
+            child: ListView.builder(
+                padding: EdgeInsets.all(5),
+                shrinkWrap: true,
+                itemCount: doctors.length,
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+                  return Column(
+                    children: [
+                      DoctorCardOne(
+                          id: doctors[index].id,
+                          name: doctors[index].name,
+                          speciality: doctors[index].speciality),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  );
+                }),
+          ),
+          height: 1000,
+        ),
       ],
     );
   }
