@@ -77,7 +77,16 @@ class _MemberProfileState extends State<MemberProfile> {
                 onTap: (){
                   logout();
                 },
-                child: Center(child: Text('Logout')))
+                child: const Center(
+                    child: Text(
+                        'Logout',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold
+                      ),
+                    )
+                )
+            )
           ],
         ),
       ),
@@ -87,7 +96,7 @@ class _MemberProfileState extends State<MemberProfile> {
   Widget buildName(context,size) => Column(
     children: [
        Text(
-        '$name',
+        '$name'.toUpperCase(),
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
       ),
        const SizedBox(height: 4),

@@ -40,9 +40,7 @@ class _FirstScreenState extends State<FirstScreen> {
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) => const LoginScreen()));
     }
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   fetchDoctors() async {
@@ -90,16 +88,12 @@ class _FirstScreenState extends State<FirstScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(children: [
-              Text('Hi,',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w400)),
-              Text(name,
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w700))
+              Text(name.toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                  ))
             ]),
             const CircleAvatar(
               radius: 25,
@@ -129,7 +123,7 @@ class _FirstScreenState extends State<FirstScreen> {
                       onPressed: () {},
                       icon: const Icon(Icons.search, color: Colors.black54)),
                   const Text(
-                    'Search By the doctor name',
+                    'Search By The Doctor Name',
                     style: TextStyle(
                       color: Colors.black54,
                       fontWeight: FontWeight.bold,
@@ -141,57 +135,50 @@ class _FirstScreenState extends State<FirstScreen> {
           ),
         ),
         SizedBox(
-        height: 100,
-        child: ListView.builder(
-        shrinkWrap: false,
-        itemCount: doctors.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (BuildContext context, int index) {
-        return CatCard(
-        title: doctors[index].speciality,
-        );
-        }),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'My Appointment',
-            style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 16),
-          ),
-        ),
-        // DoctorCardTwo(),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Top rated doctors',
-            style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 16),
-          ),
-        ),
-        Container(
-          height: 800,
+          height: 100,
           child: ListView.builder(
               shrinkWrap: false,
               itemCount: doctors.length,
+              scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
-                return Column(
-                  children: [
-                    DoctorCardOne(
-                      id: doctors[index].id,
-                        name: doctors[index].name,
-                        speciality: doctors[index].speciality),
-                    SizedBox(
-                      height: 10,
-                    ),
-                  ],
+                return CatCard(
+                  title: doctors[index].speciality,
                 );
               }),
         ),
+        const Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'My Appointments',
+            style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+        ),
+        // DoctorCardTwo(),
+        const Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'Top Rated Doctors',
+            style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+        ),
+        ListView.builder(
+            shrinkWrap: true,
+            itemCount: doctors.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Column(
+                children: [
+                  DoctorCardOne(
+                      id: doctors[index].id,
+                      name: doctors[index].name,
+                      speciality: doctors[index].speciality),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
+              );
+            }),
       ],
     );
   }

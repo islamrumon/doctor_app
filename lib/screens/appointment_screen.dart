@@ -78,14 +78,14 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: Text('My appointments'),
+            title: const Text('My Appointments'),
           ),
           body: ListView.builder(
               itemCount: appointments.length,
               itemBuilder: (BuildContext context, int index) {
                 return Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     DoctorCardTwo(appointments: appointments[index]),
