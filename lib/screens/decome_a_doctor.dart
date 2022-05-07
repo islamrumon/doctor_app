@@ -157,7 +157,7 @@ class _BecomeADoctorState extends State<BecomeADoctor> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text('User name', style: const TextStyle(
+                        Text('Username', style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
                         ),),
@@ -354,7 +354,17 @@ class _BecomeADoctorState extends State<BecomeADoctor> {
                         onTap: (){
                           register();
                         },
-                        child: Text('Registration'))),
+                        child: const Text(
+                            'Registration',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 24,
+                                backgroundColor: Colors.black,
+                                color: Colors.white,
+                              ),
+                        )
+                    )
+                ),
 
 
                 const SizedBox(height: 20,),
