@@ -31,6 +31,7 @@ class _APpointmentsDetailsState extends State<APpointmentsDetails> {
     final prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token')!;
     role =  prefs.getString('role')!;
+    print(role);
   }
 
   showAllp() async{
@@ -40,14 +41,12 @@ class _APpointmentsDetailsState extends State<APpointmentsDetails> {
     if (response.statusCode == 200) {
       print('Number of books about http: ${response.body}.');
       var json = jsonDecode(response.body);
-      setState(() {
-        if (json['prescriptions'] != null) {
-          prescriptions = [];
-          json['prescriptions'].forEach((v) {
-            prescriptions.add(Prescriptions.fromJson(v));
-          });
-        }
-      });
+      if (json['prescriptions'] != null) {
+        prescriptions = [];
+        json['prescriptions'].forEach((v) {
+          prescriptions.add(Prescriptions.fromJson(v));
+        });
+      }
     } else {
       Fluttertoast.showToast(
           msg: "Request failed with status: ${response.statusCode}.",
@@ -108,119 +107,72 @@ class _APpointmentsDetailsState extends State<APpointmentsDetails> {
     // TODO: implement initState
     super.initState();
     showAllp();
-    bootData();
+
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    bootData();
     return SafeArea(child: Scaffold(
-      resizeToAvoidBottomInset: true,
       appBar: AppBar(title: Text('Details')),
-      body: ListView(
-        shrinkWrap: true,
-        padding: EdgeInsets.all(10),
-        children: [
-        Container(
-        width: size.width,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: widget.appointments.status == '1' ? Colors.green : Colors.grey,
-            width: 2,
-          ), //Border.all
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Column(
+      body: RefreshIndicator(
+        onRefresh: () async{
+          return await showAllp();
+        },
+        child: ListView(
+          shrinkWrap: true,
+          padding: EdgeInsets.all(10),
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-
-                SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  child: Column(
-                    children: [
-                      Text('${widget.appointments.subject}',style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold),),
-                      Text('${widget.appointments.desc}',style: TextStyle(color: Colors.black45,fontSize: 14),)
-                    ],
-                  ),
-                )
-              ],
-            ),
-            Divider(
-              height: 10,
-              color: Colors.grey,
-            ),
-            Padding(padding: EdgeInsets.all(8),child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [Icon(Icons.access_time),
-                Text('${widget.appointments.date}',style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),),
-              ],
-            ),)
-          ],
-        ),
-      ),
-          SizedBox(
-            height: 25,
-          ),
           Container(
-            height: 600,
-            child: ListView.builder(
-                shrinkWrap: false,
-                itemCount: prescriptions.length,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    leading: Container(
-                      width: size.width,
-                      height: 200,
-                      padding: EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Medicine: ${prescriptions[index].medicine}',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20
-                            ),
-                          ),
+          width: size.width,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: widget.appointments.status == '1' ? Colors.green : Colors.grey,
+              width: 2,
+            ), //Border.all
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
 
-                          Text(
-                            'Dosage: ${prescriptions[index].dosage}',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20
-                            ),
-                          ),
-
-                          Text(
-                              'Instruction: ${prescriptions[index].instruction}',
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20
-                              ),
-                          ),
-                        ],
-                      ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    child: Column(
+                      children: [
+                        Text('${widget.appointments.subject}',style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold),),
+                        Text('${widget.appointments.desc}',style: TextStyle(color: Colors.black45,fontSize: 14),)
+                      ],
                     ),
-                  );
-                }),
+                  )
+                ],
+              ),
+              Divider(
+                height: 10,
+                color: Colors.grey,
+              ),
+              Padding(padding: EdgeInsets.all(8),child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [Icon(Icons.access_time),
+                  Text('${widget.appointments.date}',style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),),
+                ],
+              ),)
+            ],
           ),
-
-          const SizedBox(
-            height: 25,
-          ),
-      role == 'doctor' ? Container(
-            child: Column(
+        ),
+            SizedBox(
+              height: 25,
+            ),
+            Column(
               children: [
                 TextField(
                   controller: medicine,
@@ -281,8 +233,58 @@ class _APpointmentsDetailsState extends State<APpointmentsDetails> {
                 ),
               ],
             ),
-          ) : Container(),
-        ],
+            SizedBox(
+              height: 25,
+            ),
+            Container(
+              height: 600,
+              child: ListView.builder(
+                  shrinkWrap: false,
+                  itemCount: prescriptions.length,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      width: size.width,
+                      padding: EdgeInsets.all(4),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Medicine: ${prescriptions[index].medicine}',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20
+                            ),
+                          ),
+
+                          Text(
+                            'Dosage: ${prescriptions[index].dosage}',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20
+                            ),
+                          ),
+
+                          Text(
+                            'Instruction: ${prescriptions[index].instruction}',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+            ),
+
+            const SizedBox(
+              height: 25,
+            ),
+
+          ],
+        ),
       ),
     ));
   }

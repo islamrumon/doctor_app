@@ -5,6 +5,7 @@ import 'package:doctor_app/helper/helper.dart';
 import 'package:doctor_app/models/appoinment.dart';
 import 'package:doctor_app/screens/login_screen.dart';
 import 'package:doctor_app/widgets/doctor_card_tow.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -75,6 +76,42 @@ class _AppointMentRequestState extends State<AppointMentRequest> {
     // TODO: implement initState
     super.initState();
     fetchDoctors();
+    _saveDeviceToken();
+  }
+
+  _saveDeviceToken() async {
+    // String? token = '';
+    // FirebaseMessaging.instance.getToken().then((value) {
+    //   token = value;
+    // });
+    String? token = await FirebaseMessaging.instance.getToken();
+    print('firebase message token $token');
+    final prefs = await SharedPreferences.getInstance();
+    var url =  Uri.parse(baseUrl+'/toke');
+    var response = await http.post(url,body:{
+      'id':prefs.getInt('id').toString(),
+      'token':token,
+
+    });
+
+    if (response.statusCode == 200) {
+      print('Number of books about http: ${response.body}.');
+      var jsonResponse = jsonDecode(response.body);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Request failed with status: ${response.statusCode}.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+
+    }
+
+    // /toke/{id}/{token}
+
   }
 
   @override
