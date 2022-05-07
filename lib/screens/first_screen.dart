@@ -150,7 +150,7 @@ class _FirstScreenState extends State<FirstScreen> {
         );
         }),
         ),
-        Padding(
+        const Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
             'My Appointments',
@@ -161,7 +161,7 @@ class _FirstScreenState extends State<FirstScreen> {
           ),
         ),
         // DoctorCardTwo(),
-        Padding(
+        const Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
             'Top Rated Doctors',
@@ -183,7 +183,7 @@ class _FirstScreenState extends State<FirstScreen> {
                       id: doctors[index].id,
                         name: doctors[index].name,
                         speciality: doctors[index].speciality),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                   ],
