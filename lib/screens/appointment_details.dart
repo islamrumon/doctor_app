@@ -116,6 +116,7 @@ class _APpointmentsDetailsState extends State<APpointmentsDetails> {
     Size size = MediaQuery.of(context).size;
 
     return SafeArea(child: Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(title: Text('Details')),
       body: ListView(
         shrinkWrap: true,
@@ -160,32 +161,54 @@ class _APpointmentsDetailsState extends State<APpointmentsDetails> {
               children: [Icon(Icons.access_time),
                 Text('${widget.appointments.date}',style: TextStyle(
                   fontWeight: FontWeight.bold,
-
                 ),),
               ],
             ),)
           ],
         ),
       ),
+          SizedBox(
+            height: 25,
+          ),
           Container(
-            height: size.height /2,
+            height: 600,
             child: ListView.builder(
                 shrinkWrap: false,
                 itemCount: prescriptions.length,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    width: size.width,
-                    height: 200,
-                    padding: EdgeInsets.all(10),
-                    child: ListTile(
-                      leading: Column(
+                  return ListTile(
+                    leading: Container(
+                      width: size.width,
+                      height: 200,
+                      padding: EdgeInsets.all(10),
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text('${prescriptions[index].medicine}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
-                          Text('${prescriptions[index].dosage}',style: TextStyle(fontWeight: FontWeight.bold),),
-                          Text('${prescriptions[index].instruction}'),
+                          Text(
+                            'Medicine: ${prescriptions[index].medicine}',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20
+                            ),
+                          ),
+
+                          Text(
+                            'Dosage: ${prescriptions[index].dosage}',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20
+                            ),
+                          ),
+
+                          Text(
+                              'Instruction: ${prescriptions[index].instruction}',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20
+                              ),
+                          ),
                         ],
                       ),
                     ),
@@ -194,7 +217,7 @@ class _APpointmentsDetailsState extends State<APpointmentsDetails> {
           ),
 
           const SizedBox(
-            height: 45,
+            height: 25,
           ),
       role == 'doctor' ? Container(
             child: Column(
@@ -259,7 +282,6 @@ class _APpointmentsDetailsState extends State<APpointmentsDetails> {
               ],
             ),
           ) : Container(),
-
         ],
       ),
     ));
