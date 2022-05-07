@@ -33,8 +33,9 @@ class _AccoutnScreenState extends State<AccoutnScreen> {
     if (response.statusCode == 200) {
       print('Number of books about http: ${response.body}.');
       var jsonResponse = jsonDecode(response.body);
+      doctor = Doctors.fromJson(jsonResponse);
       setState(() {
-        doctor = Doctors.fromJson(jsonResponse);
+
       });
     } else {
       Fluttertoast.showToast(

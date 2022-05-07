@@ -28,7 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   var pass = TextEditingController();
 
   register() async{
-
+print('register');
     var url =  Uri.parse(baseUrl+'/register');
     var response = await http.post(url,body:{
       'email':email.text,
