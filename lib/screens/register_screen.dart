@@ -135,13 +135,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 Column(
                   children: const <Widget>[
-                    Text("Sign up", style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold
-                    ),),
                     SizedBox(height: 20,),
                     Text("Create an account, It's free", style: TextStyle(
-                        fontSize: 15
+                        fontSize: 20
                     )),
                   ],
                 ),
@@ -151,7 +147,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text('User name', style: const TextStyle(
+                        const Text('Username', style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
                         ),),
@@ -226,11 +222,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 FadeAnimation(
                     1.4,
-                    GestureDetector(
-                        onTap: (){
-                          register();
-                        },
-                        child: Text('register'))),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        border: Border.all(color: Colors.black),
+                      ),
+                      child: GestureDetector(
+                          onTap: (){
+                            register();
+                          },
+                          child: const Padding(
+                            padding:  EdgeInsets.symmetric(horizontal: 40),
+                            child: Text(
+                                'Register',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 24,
+                                backgroundColor: Colors.black,
+                                color: Colors.white,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          )
+                      ),
+                    )
+                ),
 
                 const SizedBox(height: 20,),
                 FadeAnimation(1.6, Row(

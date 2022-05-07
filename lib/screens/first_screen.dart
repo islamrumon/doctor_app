@@ -90,16 +90,14 @@ class _FirstScreenState extends State<FirstScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(children: [
-              Text('Hi,',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w400)),
-              Text(name,
-                  style: TextStyle(
+              Text(name.toUpperCase(),
+                  style: const TextStyle(
                       fontSize: 18,
                       color: Colors.black,
-                      fontWeight: FontWeight.w700))
+                      fontWeight: FontWeight.w700,
+
+                  )
+              )
             ]),
             const CircleAvatar(
               radius: 25,
@@ -129,7 +127,7 @@ class _FirstScreenState extends State<FirstScreen> {
                       onPressed: () {},
                       icon: const Icon(Icons.search, color: Colors.black54)),
                   const Text(
-                    'Search By the doctor name',
+                    'Search By The Doctor Name',
                     style: TextStyle(
                       color: Colors.black54,
                       fontWeight: FontWeight.bold,
@@ -155,7 +153,7 @@ class _FirstScreenState extends State<FirstScreen> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            'My Appointment',
+            'My Appointments',
             style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
@@ -166,7 +164,7 @@ class _FirstScreenState extends State<FirstScreen> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            'Top rated doctors',
+            'Top Rated Doctors',
             style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,

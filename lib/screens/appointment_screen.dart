@@ -78,7 +78,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: Text('My appointments'),
+            title: Text('My Appointments'),
           ),
           body: ListView.builder(
               itemCount: appointments.length,

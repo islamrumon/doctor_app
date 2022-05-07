@@ -9,6 +9,7 @@ import 'package:doctor_app/screens/appointment_request.dart';
 import 'package:doctor_app/screens/decome_a_doctor.dart';
 import 'package:doctor_app/screens/main_screen.dart';
 import 'package:doctor_app/screens/register_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -112,7 +113,8 @@ class _LoginScreenState extends State<LoginScreen> {
             "Login",
             style: TextStyle(
                 fontWeight: FontWeight.w700,
-                color: Colors.black),
+                color: Colors.black,
+            ),
           ),
           elevation: 0,
           actions: [
@@ -154,13 +156,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  const FadeAnimation(
-                      1,
-                      Text(
-                        "Login",
-                        style:
-                        TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                      )),
                   const SizedBox(
                     height: 20,
                   ),
@@ -168,8 +163,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       1.2,
                       Text(
                         "Login to your account",
-                        style: TextStyle(fontSize: 15,),
-                      )),
+                        style: TextStyle(fontSize: 18,),
+                      )
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                 ],
               ),
               Padding(
@@ -240,14 +239,29 @@ class _LoginScreenState extends State<LoginScreen> {
                     onTap: ()  {
                         login(); 
                     },
-                    child: const Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 40),
-                      child: Text('Login'),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          border: Border.all(color: Colors.black),
+                      ),
+                      child: const Padding(
+                        padding:  EdgeInsets.symmetric(horizontal: 40),
+                        child: Text(
+                            'Login',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 24,
+                            backgroundColor: Colors.black,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ),
                   )),
 
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               FadeAnimation(
                   1.5,
@@ -260,14 +274,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>const RegisterScreen()));
                         },
                         child: const Text(
-                          "  Registration",
+                          "  Register Now",
                           style: TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 18),
                         ),
                       ),
                     ],
                   )),
-              const SizedBox(height: 60,),
+              const SizedBox(height: 20,),
               FadeAnimation(1.6, Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -276,7 +290,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>const BecomeADoctor()));
                     },
-                    child:const Text("Register", style:  TextStyle(
+                    child:const Text(" Register Now", style:  TextStyle(
                         fontWeight: FontWeight.w600, fontSize: 18
                     ),),
                   ),
