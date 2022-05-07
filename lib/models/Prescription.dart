@@ -15,10 +15,10 @@
 
 class Prescriptions {
   late int id;
-  late int doctorId;
-  late int patientId;
-  late int appointmentId;
-  late String date;
+  late String doctorId;
+  late String patientId;
+  late String appointmentId;
+  late String? date = null;
   late String medicine;
   late String dosage;
   late String instruction;
@@ -30,7 +30,7 @@ class Prescriptions {
       required this.doctorId,
       required this.patientId,
       required this.appointmentId,
-      required this.date,
+      this.date,
       required this.medicine,
       required this.dosage,
       required this.instruction,

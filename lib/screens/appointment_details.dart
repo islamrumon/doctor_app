@@ -116,6 +116,7 @@ class _APpointmentsDetailsState extends State<APpointmentsDetails> {
     Size size = MediaQuery.of(context).size;
 
     return SafeArea(child: Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(title: Text('Details')),
       body: ListView(
         shrinkWrap: true,
@@ -167,8 +168,11 @@ class _APpointmentsDetailsState extends State<APpointmentsDetails> {
           ],
         ),
       ),
+          SizedBox(
+            height: 25,
+          ),
           Container(
-            height: 100,
+            height: 400,
             child: ListView.builder(
                 shrinkWrap: false,
                 itemCount: prescriptions.length,
@@ -176,16 +180,36 @@ class _APpointmentsDetailsState extends State<APpointmentsDetails> {
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     width: size.width,
-                    // height: ,
-                    padding: EdgeInsets.all(10),
+                    height: 400,
+                    padding: EdgeInsets.all(20.0),
                     child: ListTile(
                       leading: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text('${prescriptions[index].medicine}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
-                          Text('${prescriptions[index].dosage}',style: TextStyle(fontWeight: FontWeight.bold),),
-                          Text('${prescriptions[index].instruction}'),
+                          Text(
+                            'Medicine: ${prescriptions[index].medicine}',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20
+                            ),
+                          ),
+
+                          Text(
+                            'Dosage: ${prescriptions[index].dosage}',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20
+                            ),
+                          ),
+
+                          Text(
+                              'Instruction: ${prescriptions[index].instruction}',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20
+                              ),
+                          ),
                         ],
                       ),
                     ),
