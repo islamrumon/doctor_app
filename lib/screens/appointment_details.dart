@@ -168,7 +168,7 @@ class _APpointmentsDetailsState extends State<APpointmentsDetails> {
         ),
       ),
           Container(
-            height: size.height /2,
+            height: 100,
             child: ListView.builder(
                 shrinkWrap: false,
                 itemCount: prescriptions.length,
@@ -194,7 +194,7 @@ class _APpointmentsDetailsState extends State<APpointmentsDetails> {
           ),
 
           const SizedBox(
-            height: 45,
+            height: 25,
           ),
       role == 'doctor' ? Container(
             child: Column(
