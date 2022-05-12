@@ -78,11 +78,17 @@ class _MemberProfileState extends State<MemberProfile> {
                   logout();
                 },
                 child: const Center(
-                    child: Text(
+                    child: Padding(
+                      padding:  EdgeInsets.symmetric(horizontal: 40),
+                      child: Text(
                         'Logout',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 24,
+                          backgroundColor: Colors.black,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
                     )
                 )
