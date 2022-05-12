@@ -7,6 +7,7 @@ import 'package:doctor_app/helper/helper.dart';
 
 import 'package:doctor_app/screens/appointment_request.dart';
 import 'package:doctor_app/screens/decome_a_doctor.dart';
+import 'package:doctor_app/screens/email_screen.dart';
 import 'package:doctor_app/screens/main_screen.dart';
 import 'package:doctor_app/screens/register_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -117,26 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           elevation: 0,
-          actions: [
-            IconButton(
-                onPressed: () {
-                },
-                icon: const Icon(Icons.notifications,
-                    color: Colors.black)),
-            PopupMenuButton<String>(
-              icon: const Icon(Icons.more_vert,
-                  color:  Colors.black),
-              onSelected: (value) {},
-              itemBuilder: (BuildContext context) {
-                return {'Logout', 'Settings'}.map((String choice) {
-                  return PopupMenuItem<String>(
-                    value: choice,
-                    child: Text(choice),
-                  );
-                }).toList();
-              },
-            ),
-          ],
+
         ),
         body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
@@ -263,6 +245,25 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 20,
               ),
+              FadeAnimation(
+                  1.5,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Text("Forget password"),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const EmailScreen()));
+                        },
+                        child: const Text(
+                          " Reset now",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 18),
+                        ),
+                      ),
+                    ],
+                  )),
+
               FadeAnimation(
                   1.5,
                   Row(

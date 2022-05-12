@@ -37,10 +37,10 @@ class Appointments {
 
   Appointments.fromJson(dynamic json) {
     id = json['id'];
-    doctorId = json['doctor_id'];
-    patientId = json['patient_id'];
+    doctorId = json['doctor_id'].toString();
+    patientId = json['patient_id'].toString();
     date = json['date'];
-    status = json['status'];
+    status = json['status'].toString();
     subject = json['subject'];
     desc = json['desc'];
     createdAt = json['created_at'];

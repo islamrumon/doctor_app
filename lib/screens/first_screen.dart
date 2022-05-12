@@ -102,38 +102,38 @@ class _FirstScreenState extends State<FirstScreen> {
             ),
           ],
         ),
-        Padding(
-          padding: EdgeInsets.only(top: 20, bottom: 10),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const DoctorScreens()));
-            },
-            child: Container(
-              height: 60,
-              decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.circular(16.0),
-                  border: Border.all(color: Colors.black45, width: 2)),
-              child: Row(
-                children: [
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.search, color: Colors.black54)),
-                  const Text(
-                    'Search By The Doctor Name',
-                    style: TextStyle(
-                      color: Colors.black54,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
+        // Padding(
+        //   padding: EdgeInsets.only(top: 20, bottom: 10),
+        //   child: GestureDetector(
+        //     onTap: () {
+        //       Navigator.push(
+        //           context,
+        //           MaterialPageRoute(
+        //               builder: (context) => const DoctorScreens()));
+        //     },
+        //     child: Container(
+        //       height: 60,
+        //       decoration: BoxDecoration(
+        //           color: Colors.white70,
+        //           borderRadius: BorderRadius.circular(16.0),
+        //           border: Border.all(color: Colors.black45, width: 2)),
+        //       child: Row(
+        //         children: [
+        //           IconButton(
+        //               onPressed: () {},
+        //               icon: const Icon(Icons.search, color: Colors.black54)),
+        //           const Text(
+        //             'Search By The Doctor Name',
+        //             style: TextStyle(
+        //               color: Colors.black54,
+        //               fontWeight: FontWeight.bold,
+        //             ),
+        //           )
+        //         ],
+        //       ),
+        //     ),
+        //   ),
+        // ),
         SizedBox(
           height: 100,
           child: ListView.builder(

@@ -28,7 +28,6 @@ class _DoctorScreensState extends State<DoctorScreens> {
               padding: EdgeInsets.only(bottom: 10),
               child: const TextField (
                 decoration: InputDecoration(
-                    // border: InputBorder.none,
                   suffixIcon: Icon(Icons.search),
                     labelText: 'Enter Name',
                     hintText: 'Enter Your Name'

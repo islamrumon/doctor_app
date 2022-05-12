@@ -1,50 +1,42 @@
 
-
 import 'dart:convert';
 
 import 'package:doctor_app/helper/fade_animation.dart';
 import 'package:doctor_app/helper/helper.dart';
-import 'package:doctor_app/screens/decome_a_doctor.dart';
 import 'package:doctor_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import 'package:http/http.dart' as http;
-import 'package:getwidget/getwidget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+class PasswordReset extends StatefulWidget {
+  const PasswordReset({Key? key}) : super(key: key);
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<PasswordReset> createState() => _PasswordResetState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _PasswordResetState extends State<PasswordReset> {
 
-  var name = TextEditingController();
-  var email = TextEditingController();
+
   var pass = TextEditingController();
 
   register() async{
-print('register');
-    var url =  Uri.parse(baseUrl+'/register');
+    print('register');
+    final prefs = await SharedPreferences.getInstance();
+    var url =  Uri.parse(baseUrl+'/3/forget/password');
     var response = await http.post(url,body:{
-      'email':email.text,
+      'email':prefs.getString('email')!,
       'password':pass.text,
-      'role':'patient',
-      'name':name.text,
+      'code':prefs.getString('code')!,
     });
 
     if (response.statusCode == 200) {
       print('Number of books about http: ${response.body}.');
       var jsonResponse = jsonDecode(response.body);
 
-      if(jsonResponse['result'] == true){
+      if(jsonResponse['error'] == false){
         //store data
-
-
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));
       }else{
         Fluttertoast.showToast(
@@ -71,6 +63,7 @@ print('register');
 
     }
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -89,7 +82,7 @@ print('register');
             ),
           ),
           title: const Text(
-            "Registration",
+            "Password reset",
             style: TextStyle(
                 fontWeight: FontWeight.w700,
                 color: Colors.black),
@@ -124,55 +117,9 @@ print('register');
                 const SizedBox(height: 20,),
                 Column(
                   children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        const Text('Username', style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                        ),),
-                        const SizedBox(height: 5,),
-                        TextField(
-                          controller: name,
-                          obscureText: false,
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey)
-                            ),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey)
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 30,),
-                      ],
-                    ),
 
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text('Email', style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                        ),),
-                        const SizedBox(height: 5,),
-                        TextField(
-                          controller: email,
-                          obscureText: false,
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey)
-                            ),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey)
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 30,),
-                      ],
-                    ),
+
+
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -214,7 +161,7 @@ print('register');
                           child: const Padding(
                             padding:  EdgeInsets.symmetric(horizontal: 40),
                             child: Text(
-                                'Register',
+                              'Save',
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 24,
@@ -228,67 +175,11 @@ print('register');
                     )
                 ),
 
-                const SizedBox(height: 20,),
-                FadeAnimation(1.6, Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Text("Already have an account?"),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));
-                      },
-                      child:const Text(" Login", style:  TextStyle(
-                          fontWeight: FontWeight.w600, fontSize: 18
-                      ),),
-                    ),
-                  ],
-                )),
-                const SizedBox(height: 60,),
-                FadeAnimation(1.6, Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Text("Become a doctor?"),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const BecomeADoctor()));
-                      },
-                      child:const Text("Register", style:  TextStyle(
-                          fontWeight: FontWeight.w600, fontSize: 18
-                      ),),
-                    ),
-                  ],
-                )),
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget makeInput({label, obscureText = false}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(label, style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w400,
-        ),),
-        const SizedBox(height: 5,),
-        TextField(
-          obscureText: obscureText,
-          decoration: const InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey)
-            ),
-            border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey)
-            ),
-          ),
-        ),
-        const SizedBox(height: 30,),
-      ],
     );
   }
 }
