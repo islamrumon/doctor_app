@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:doctor_app/helper/helper.dart';
 import 'package:doctor_app/models/appoinment.dart';
+import 'package:doctor_app/screens/histrory2_screen.dart';
 import 'package:doctor_app/screens/login_screen.dart';
 import 'package:doctor_app/widgets/doctor_card_tow.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -124,6 +125,17 @@ class _AppointMentRequestState extends State<AppointMentRequest> {
         child: Scaffold(
           appBar: AppBar(
             title: Text('Appointments request lists'),
+            actions: [
+              GestureDetector(
+                onTap: (){
+                 Navigator.push(context, MaterialPageRoute(builder: (context)=>const History2Screen()));
+                },
+                child: Center(
+
+                  child: Text('History'),
+                ),
+              )
+            ],
           ),
           body: ListView.builder(
               itemCount: appointments.length,

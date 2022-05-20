@@ -8,6 +8,7 @@ import 'package:doctor_app/screens/account_screen.dart';
 import 'package:doctor_app/screens/appointment_request.dart';
 import 'package:doctor_app/screens/appointment_screen.dart';
 import 'package:doctor_app/screens/first_screen.dart';
+import 'package:doctor_app/screens/history_screen.dart';
 import 'package:doctor_app/screens/member_profile.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -114,9 +115,10 @@ String  role = 'role';
   }
 
   final List<Widget> _pages = <Widget>[
-    FirstScreen(),
+    const FirstScreen(),
     const AppointmentScreen(),
     const MemberProfile(),
+    const HistoryScreen(),
   ];
 
 
@@ -167,6 +169,7 @@ String  role = 'role';
       child: Scaffold(
         body: _pages.elementAt(_selectedIndex),
         bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed, //
           currentIndex: _selectedIndex, //New
           onTap: _onItemTapped,
           items: const <BottomNavigationBarItem>[
@@ -181,6 +184,10 @@ String  role = 'role';
             BottomNavigationBarItem(
               icon: Icon(FontAwesomeIcons.user),
               label: 'Account',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.list),
+              label: 'History',
             ),
           ],
         ),
