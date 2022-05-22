@@ -27,6 +27,8 @@ class _AppointmentCreateState extends State<AppointmentCreate> {
   final _addTitle = TextEditingController();
   final _description = TextEditingController();
   DateTime selectedDate = DateTime.now();
+  // Initial Selected Value
+  String dropdownvalue = '8 am';
 
   submit() async{
     print(widget.doctorId.toString());
@@ -66,7 +68,8 @@ class _AppointmentCreateState extends State<AppointmentCreate> {
         'user_id':prefs.getInt('id')!.toString(),
         'subject':_addTitle.text,
         'desc':_description.text,
-        'time':selectedDate.toString(),
+        'date':selectedDate.toString(),
+        'time':dropdownvalue.toString(),
       });
 
       print(prefs.getInt('id')!.toString());
@@ -113,6 +116,19 @@ class _AppointmentCreateState extends State<AppointmentCreate> {
         selectedDate = selected;
       });
   }
+
+
+
+  // List of items in our dropdown menu
+  var items = [
+    '7 am',
+    '8 am',
+    '9.30 am',
+    '10 am ',
+    '11 am ',
+    '12 pm',
+    '1 pm',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -171,6 +187,48 @@ class _AppointmentCreateState extends State<AppointmentCreate> {
                     color: Colors.white, fontWeight: FontWeight.bold),
                 icon: const Icon(FontAwesomeIcons.clock, size: 16),
                 shape: GFButtonShape.pills,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      child: DropdownButton(
+                        // Initial Value
+                        value: dropdownvalue,
+                        // Down Arrow Icon
+                        icon: const Icon(Icons.keyboard_arrow_down),
+
+                        // Array list of items
+                        items: [
+                          '7 am',
+                          '8 am',
+                          '9.30 am',
+                          '10 am ',
+                          '11 am ',
+                          '12 pm',
+                          '1 pm',
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownvalue = newValue!;
+                          });
+                        },
+                      ),
+                      width: 100,
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 20,

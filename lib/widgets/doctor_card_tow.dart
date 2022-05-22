@@ -55,7 +55,7 @@ class _DoctorCardTwoState extends State<DoctorCardTwo> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [Icon(Icons.access_time),
-                Text('${widget.appointments.date}',style: TextStyle(
+                Text('${widget.appointments.date} ${widget.appointments.time}',style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
                 ),

@@ -82,7 +82,7 @@ class _History2ScreenState extends State<History2Screen> {
                 return ListTile(
                   leading: Icon(Icons.abc),
                   title: Text('${historyappoint[index].subject}'),
-                  subtitle: Text('Patient: ${historyappoint[index].subject}, Date: ${historyappoint[index].createdAt}'),
+                  subtitle: Text('Patient: ${historyappoint[index].doctorName}, Date: ${historyappoint[index].createdAt}'),
                   trailing: Icon(Icons.food_bank),
                 );
               }),

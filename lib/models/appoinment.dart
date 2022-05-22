@@ -18,6 +18,7 @@ class Appointments {
   late String doctorId;
   late String patientId;
   late String date;
+  late String time;
   late String status;
   late String subject;
   late String desc;
@@ -29,6 +30,7 @@ class Appointments {
       required this.doctorId,
       required this.patientId,
       required this.date,
+    required this.time,
       required this.status,
       required this.subject,
       required this.desc,
@@ -40,6 +42,7 @@ class Appointments {
     doctorId = json['doctor_id'].toString();
     patientId = json['patient_id'].toString();
     date = json['date'];
+    time = json['time']== null ? '' : json['time'];
     status = json['status'].toString();
     subject = json['subject'];
     desc = json['desc'];
