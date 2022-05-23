@@ -47,23 +47,46 @@ class _AccoutnScreenState extends State<AccoutnScreen> {
           textColor: Colors.white,
           fontSize: 16.0);
     }
+
+    canLaunchUrl(Uri(scheme: 'tel', path: '${doctor.phone}')).then((bool result) {
+      setState(() {
+        _hasCallSupport = result;
+      });
+    });
+
+    canLaunchUrl(Uri(scheme: 'sms', path: '${doctor.phone}')).then((bool result) {
+      setState(() {
+        _hasCallSupport = result;
+      });
+    });
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    canLaunchUrl(Uri(scheme: 'tel', path: doctor.phone)).then((bool result) {
-      setState(() {
-        _hasCallSupport = result;
-      });
-    });
     featchDataSF();
+
+
+    // canLaunchUrl(Uri(scheme: 'sms', path: doctor.phone)).then((bool result) {
+    //   setState(() {
+    //     _hasCallSupport = result;
+    //   });
+    // });
+
   }
 
   Future<void> _makePhoneCall(String phoneNumber) async {
     final Uri launchUri = Uri(
       scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launchUrl(launchUri);
+  }
+
+  Future<void> _makeSmsCall(String phoneNumber) async {
+    final Uri launchUri = Uri(
+      scheme: 'sms',
       path: phoneNumber,
     );
     await launchUrl(launchUri);
@@ -179,11 +202,15 @@ class _AccoutnScreenState extends State<AccoutnScreen> {
                   type: GFButtonType.transparent,
                 ),
                 GFButton(
-                  onPressed: () {},
+                  onPressed: _hasCallSupport
+                      ? () => setState(() {
+                    _launched = _makeSmsCall(doctor.phone);
+                  })
+                      : null,
                   color: Colors.grey,
                   shape: GFButtonShape.standard,
                   child: Icon(
-                    FontAwesomeIcons.googlePlusG,
+                    FontAwesomeIcons.message,
                     color: Colors.grey,
                   ),
                   size: GFSize.LARGE,
