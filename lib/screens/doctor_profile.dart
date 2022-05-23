@@ -21,7 +21,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = <Widget>[
-     FirstScreen(),
+    const FirstScreen(),
     const AppointmentScreen(),
     const MemberProfile(),
   ];

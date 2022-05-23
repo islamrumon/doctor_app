@@ -7,6 +7,7 @@ import 'package:doctor_app/helper/helper.dart';
 import 'package:doctor_app/screens/decome_a_doctor.dart';
 import 'package:doctor_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -25,6 +26,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   var name = TextEditingController();
   var email = TextEditingController();
+  var phone = TextEditingController();
   var pass = TextEditingController();
 
   register() async{
@@ -33,6 +35,7 @@ print('register');
     var response = await http.post(url,body:{
       'email':email.text,
       'password':pass.text,
+      'phone':phone.text,
       'role':'patient',
       'name':name.text,
     });
@@ -159,6 +162,31 @@ print('register');
                         const SizedBox(height: 5,),
                         TextField(
                           controller: email,
+                          obscureText: false,
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey)
+                            ),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey)
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 30,),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('Phone number', style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                        ),),
+                        const SizedBox(height: 5,),
+                        TextField(
+                          controller: phone,
+                          keyboardType: TextInputType.number,
                           obscureText: false,
                           decoration: const InputDecoration(
                             contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),

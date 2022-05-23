@@ -51,7 +51,7 @@ class Doctors {
     qualification = json['qualification'];
     experience = json['experience'];
     address = json['address'];
-    phone =  '01800000000';
+    phone =   json['phone'] == null ? '01800000000' : json['phone'];
     emailVerifiedAt = json['email_verified_at'];
     role = json['role'];
     createdAt = json['created_at'];
