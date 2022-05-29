@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:doctor_app/helper/helper.dart';
 import 'package:doctor_app/screens/login_screen.dart';
@@ -12,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../helper/helper.dart';
+
 class AppointmentCreate extends StatefulWidget {
    AppointmentCreate({Key? key,required this.doctorId}) : super(key: key);
  int doctorId;
@@ -20,6 +22,16 @@ class AppointmentCreate extends StatefulWidget {
 }
 
 class _AppointmentCreateState extends State<AppointmentCreate> {
+
+  var items = [
+    '7 am',
+    '8 am',
+    '9.30 am',
+    '10 am ',
+    '11 am ',
+    '12 pm',
+    '1 pm',
+  ];
 
   int id = 0;
   String token = 'token';
@@ -102,36 +114,38 @@ class _AppointmentCreateState extends State<AppointmentCreate> {
 
   }
 
-
   _selectDate(BuildContext context) async {
+
     final DateTime? selected = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(2010),
+      firstDate: DateTime.now().subtract(Duration(days: 5)),
       lastDate: DateTime(2025),
-
+      locale: const Locale('en', 'US'),
+      selectableDayPredicate: (DateTime val) =>
+      val.weekday == 3 || val.weekday == 6 ? false : true,
     );
     if (selected != null && selected != selectedDate)
+
+    selectedDate = selected;
+    items.shuffle();
+
+    Random rnd = new Random();
+    // Define min and max value
+    int min = 3, max = 4;
+    //Getting range
+    var num = min + rnd.nextInt(max - min);
+
+    items.take(num);
+
       setState(() {
-        selectedDate = selected;
+
       });
   }
 
-
-
-  // List of items in our dropdown menu
-  var items = [
-    '7 am',
-    '8 am',
-    '9.30 am',
-    '10 am ',
-    '11 am ',
-    '12 pm',
-    '1 pm',
-  ];
-
   @override
   Widget build(BuildContext context) {
+
     Size size = MediaQuery.of(context).size;
     print(widget.doctorId.toString());
     return SafeArea(child: Scaffold(
@@ -202,16 +216,11 @@ class _AppointmentCreateState extends State<AppointmentCreate> {
                         // Down Arrow Icon
                         icon: const Icon(Icons.keyboard_arrow_down),
 
+
+
+
                         // Array list of items
-                        items: [
-                          '7 am',
-                          '8 am',
-                          '9.30 am',
-                          '10 am ',
-                          '11 am ',
-                          '12 pm',
-                          '1 pm',
-                        ].map<DropdownMenuItem<String>>((String value) {
+                        items: items.map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
